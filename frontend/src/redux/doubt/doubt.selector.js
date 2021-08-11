@@ -25,3 +25,8 @@ export const selectAllDoubts = createSelector(
 	[selectDoubt],
 	(doubt) => doubt.allDoubts
 );
+
+export const selectDoubtSuccess = createSelector(
+	[selectDoubt],
+	(doubt) => doubt.success
+);

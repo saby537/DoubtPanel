@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 enum DoubtStatus {
 	Created = 'created',
 	Accepted = 'accepted',
@@ -30,6 +31,7 @@ interface DoubtDoc extends mongoose.Document {
 	acceptedDate?: Date;
 	escalatedDate?: Date;
 	resolvedDate?: Date;
+	version: number;
 	comments?: Array<mongoose.Types.ObjectId>;
 }
 
@@ -88,6 +90,9 @@ const doubtSchema = new mongoose.Schema(
 		},
 	}
 );
+
+doubtSchema.set('versionKey', 'version');
+doubtSchema.plugin(updateIfCurrentPlugin);
 doubtSchema.statics.build = (attrs: doubtAttrs) => {
 	return new Doubt(attrs);
 };

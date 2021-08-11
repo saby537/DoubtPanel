@@ -11,7 +11,7 @@ const acceptDoubt = async (req: Request, res: Response) => {
 		throw new NotAuthorizedError();
 	}
 	let id = req.params.doubtId;
-	const doubt = await Doubt.findById(id)
+	const doubtFound = await Doubt.find({ _id: id, status: DoubtStatus.Created })
 		.populate('comments')
 		.populate({
 			path: 'comments',
@@ -21,20 +21,24 @@ const acceptDoubt = async (req: Request, res: Response) => {
 			},
 		})
 		.populate('student', 'name');
-	if (doubt == null) {
-		throw new BadRequestError('Doubt not found!!');
+	if (doubtFound == null || doubtFound.length === 0) {
+		throw new BadRequestError('Doubt has been accepted by another user');
 	}
+	const doubt = doubtFound[0];
 	doubt.status = DoubtStatus.Accepted;
 	doubt.acceptedDate = new Date();
 	doubt.teacher = req.currentUser.id;
 
-	const sess = await mongoose.startSession();
-	sess.startTransaction;
-	await doubt.save({ session: sess });
-	userExists.doubts?.push(doubt.id);
-	await userExists.save({ session: sess });
-	await sess.commitTransaction;
-
+	try {
+		const sess = await mongoose.startSession();
+		sess.startTransaction;
+		await doubt.save({ session: sess });
+		userExists.doubts?.push(doubt.id);
+		await userExists.save({ session: sess });
+		await sess.commitTransaction;
+	} catch (err) {
+		throw new BadRequestError('Request could not be completed!!');
+	}
 	res.status(201).send(doubt);
 };
 export default acceptDoubt;

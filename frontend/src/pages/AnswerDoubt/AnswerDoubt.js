@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import QuestionSection from '../../components/QuestionSection/QuestionSection';
 import CommentSection from '../../components/CommentSection/CommentSection';
 import Button from '../../components/FormElements/Button/Button';
@@ -16,6 +16,7 @@ import {
 	selectDoubtLoading,
 	selectError,
 	selectDoubtAnswered,
+	selectDoubtSuccess,
 } from '../../redux/doubt/doubt.selector';
 import { selectToken } from '../../redux/user/user.selector';
 import { createStructuredSelector } from 'reselect';
@@ -30,18 +31,31 @@ const AnswerDoubt = ({
 	addAnswer,
 	token,
 	escalateDoubt,
+	success,
 }) => {
 	const id = useParams().doubtId;
+	const hist = useHistory();
 	const [answer, setAnswer] = useState();
+	const [submitted, setSubmitted] = useState(false);
 	const changeHandler = (e) => {
 		setAnswer(e.target.value);
 	};
 	const answerHandler = async () => {
 		await addAnswer({ answer, user: token, doubtId: id });
+		setSubmitted(true);
 	};
 	const escalateHandler = async () => {
 		await escalateDoubt({ user: token, doubtId: id });
+		setSubmitted(true);
 	};
+
+	if (submitted && error == null) {
+		const successHandler = async () => {
+			await clearError();
+			hist.push('/solveDoubts');
+		};
+		successHandler();
+	}
 	useEffect(() => {
 		getRaisedDoubt({ id, user: token });
 	}, [id, getRaisedDoubt, token]);
@@ -110,5 +124,6 @@ const mapStateToProps = createStructuredSelector({
 	error: selectError,
 	answerDoubt: selectDoubtAnswered,
 	token: selectToken,
+	success: selectDoubtSuccess,
 });
 export default connect(mapStateToProps, mapDispatchToProps)(AnswerDoubt);
