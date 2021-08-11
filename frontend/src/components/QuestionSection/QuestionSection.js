@@ -1,4 +1,5 @@
 import React from 'react';
+import { getDateString } from '../../utils/dateFunctions';
 import './QuestionSection.css';
 
 const QuestionSection = ({
@@ -24,8 +25,7 @@ const QuestionSection = ({
 			</div>
 			<div className="question-subtext-container">
 				<p className="page-content-subtext">
-					Asked by {user} on{' '}
-					{new Date(date).toDateString().split(' ').slice(1).join(' ')}
+					Asked by {user} on {getDateString(date)}
 				</p>
 			</div>
 			{status === 'resolved' && (
@@ -36,12 +36,7 @@ const QuestionSection = ({
 					</div>
 					<div className="answer-subtext-container">
 						<p className="page-content-subtext">
-							Answered by {answeredBy} on{' '}
-							{new Date(resolvedDate)
-								.toDateString()
-								.split(' ')
-								.slice(1)
-								.join(' ')}
+							Answered by {answeredBy} on {getDateString(resolvedDate)}
 						</p>
 					</div>
 				</React.Fragment>
