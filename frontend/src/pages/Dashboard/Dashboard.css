@@ -1,0 +1,43 @@
+.dashboard-container {
+	display: flex;
+	flex-direction: column;
+	margin: 5vh 5vw;
+}
+
+.cur-ta-stat-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
+.cur-ta-stat {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 20%;
+	background-color: #dfe3ee;
+	border: 2px solid #b2beb5;
+	color: #676767;
+}
+
+.cur-ta-stat-value {
+	font-size: 40px;
+	font-weight: bold;
+	margin: 35px 0 25px 0;
+}
+
+.cur-ta-stat-label {
+	font-size: 14px;
+	font-weight: 600;
+	margin: 10px;
+}
+
+.ta-report-container {
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
+	padding: 20px 3%;
+	background-color: #dfe3ee;
+	border: 2px solid #b2beb5;
+}

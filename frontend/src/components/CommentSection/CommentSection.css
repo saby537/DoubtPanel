@@ -1,0 +1,20 @@
+.comment-section {
+	padding: 10px 20px;
+}
+
+.comment-input-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.comment-input {
+	width: 100%;
+	margin-right: 20px;
+	font-size: 14px;
+	padding: 8px 10px;
+	border: 2px solid #b2beb5;
+	font-weight: 500;
+}
+.comment-input:focus {
+	outline: none;
+}

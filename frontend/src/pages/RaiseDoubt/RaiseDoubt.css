@@ -1,0 +1,31 @@
+.raiseDoubt-container {
+	display: flex;
+	flex-direction: column;
+	margin: 5vh 5vw;
+}
+.doubt-section {
+	margin-top: 10px;
+	padding: 10px 20px;
+	display: flex;
+	flex-direction: column;
+	background-color: #f5f5f5;
+	border: 2px solid #b2beb5;
+}
+
+.doubt-input {
+	margin-top: 5px;
+	padding: 10px;
+	font-size: 16px;
+	border: 2px solid #b2beb5;
+	border-radius: 5px;
+}
+
+.doubt-input:focus {
+	outline: none;
+}
+
+.doubt-btn-container {
+	margin-top: 10px;
+	display: flex;
+	justify-content: flex-end;
+}

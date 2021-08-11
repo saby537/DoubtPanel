@@ -1,0 +1,10 @@
+.solveDoubts-container {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin: 5vh 5vw;
+}
+
+.solveDoubts-content-container {
+	width: 100%;
+}

@@ -1,0 +1,10 @@
+.homePage-container {
+	display: flex;
+	flex-direction: column;
+	margin: 5vh 5vw;
+}
+
+.home-comment-count-label {
+	text-align: right;
+	margin-top: 10px;
+}
