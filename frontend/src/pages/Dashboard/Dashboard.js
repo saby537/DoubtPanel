@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, useState } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import TAReportTile from '../../components/TAReportTile/TAReportTile';
 
 import ErrorModal from '../../components/UIElements/ErrorModal/ErrorModal';
@@ -22,52 +22,51 @@ const Dashboard = ({
 	report,
 	userId,
 }) => {
-	const [currentUserData, setCurrentUserData] = useState(null);
 	useEffect(() => {
 		getReport();
 	}, [getReport]);
 
-	useEffect(() => {
-		setCurrentUserData(report.filter((el) => el.id === userId));
-	}, [report, userId]);
 	return (
 		<Fragment>
 			{error != null && <ErrorModal error={error} onClear={clearError} />}
 			<div className="dashboard-container">
 				{isLoading && <LoadingSpinner asOverlay />}
 				<p className="page-header">Dashboard</p>
-				{currentUserData && (
+				{report.doubtReport && (
 					<div className="cur-ta-stat-container">
 						<div className="cur-ta-stat">
-							<p className="cur-ta-stat-value">{currentUserData[0].da}</p>
-							<p className="cur-ta-stat-label">Doubts Accepted</p>
+							<p className="cur-ta-stat-value">{report.doubtReport.doubtda}</p>
+							<p className="cur-ta-stat-label">Doubts Asked</p>
 						</div>
 						<div className="cur-ta-stat">
-							<p className="cur-ta-stat-value">{currentUserData[0].dr}</p>
+							<p className="cur-ta-stat-value">{report.doubtReport.doubtdr}</p>
 							<p className="cur-ta-stat-label">Doubts Resolved</p>
 						</div>
 						<div className="cur-ta-stat">
-							<p className="cur-ta-stat-value">{currentUserData[0].de}</p>
+							<p className="cur-ta-stat-value">{report.doubtReport.doubtde}</p>
 							<p className="cur-ta-stat-label">Doubts Escalated</p>
 						</div>
 						<div className="cur-ta-stat">
-							<p className="cur-ta-stat-value">{currentUserData[0].adrt}</p>
+							<p className="cur-ta-stat-value">
+								{report.doubtReport.doubtadrt}
+							</p>
 							<p className="cur-ta-stat-label">Avg. Doubt Resolution Time</p>
 						</div>
 					</div>
 				)}
 				<div className="ta-report-container">
 					<p className="page-content">TAs Report</p>
-					{report.map((el) => (
-						<TAReportTile
-							key={el.id}
-							da={el.da}
-							dr={el.dr}
-							de={el.de}
-							adrt={el.adrt}
-							name={el.name}
-						/>
-					))}
+					{report.userReport &&
+						report.userReport.map((el) => (
+							<TAReportTile
+								key={el.id}
+								da={el.da}
+								dr={el.dr}
+								de={el.de}
+								adat={el.adat}
+								name={el.name}
+							/>
+						))}
 				</div>
 			</div>
 		</Fragment>

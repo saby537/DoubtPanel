@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { User, UserRoles } from '../models/user';
-
+import { Doubt } from '../models/doubt';
 const getReports = async (req: Request, res: Response) => {
-	const report = await User.find({ role: UserRoles.Teacher })
+	const userReport = await User.find({ role: UserRoles.Teacher })
 		.select(['id', 'doubts', 'name'])
 		.populate({
 			path: 'doubts',
@@ -14,7 +14,13 @@ const getReports = async (req: Request, res: Response) => {
 				'escalatedDate',
 			],
 		});
-	res.status(200).send(report);
+	const doubtReport = await Doubt.find({}).select([
+		'id',
+		'status',
+		'raisedDate',
+		'resolvedDate',
+	]);
+	res.status(200).send({ report: { userReport, doubtReport } });
 };
 
 const getReportById = async (req: Request, res: Response) => {

@@ -10,27 +10,42 @@ const getDateDiff = (d1, d2) => {
 };
 
 export const calculateReportValues = (userData) => {
-	return userData.map((data) => {
+	const userReport = userData.report.userReport.map((data) => {
 		let da = data.doubts.length,
 			dr = 0,
 			de = 0,
-			adrt = 0;
+			adat = 0;
 		data.doubts.forEach((el) => {
 			if (el.status === 'resolved') {
 				dr = dr + 1;
-				adrt += getDateDiff(el.acceptedDate, el.resolvedDate);
+				adat += getDateDiff(el.acceptedDate, el.resolvedDate);
 			}
 			if (el.status === 'escalated') {
 				de = de + 1;
-				adrt += getDateDiff(el.acceptedDate, el.escalatedDate);
-			}
-			if (el.status === 'created') {
-				adrt += getDateDiff(el.acceptedTime);
+				adat += getDateDiff(el.acceptedDate, el.escalatedDate);
 			}
 		});
 		if (da > 0) {
-			adrt = Math.ceil(adrt / da);
+			adat = Math.ceil(adat / da);
 		}
-		return { da, dr, de, adrt, id: data.id, name: data.name };
+		return { da, dr, de, adat, id: data.id, name: data.name };
 	});
+	let doubtData = userData.report.doubtReport;
+	let doubtda = doubtData.length,
+		doubtdr = 0,
+		doubtde = 0,
+		doubtadrt = 0;
+	doubtData.forEach((el) => {
+		if (el.status === 'resolved') {
+			doubtdr = doubtdr + 1;
+			doubtadrt += getDateDiff(el.raisedDate, el.resolvedDate);
+		}
+		if (el.status === 'escalated') {
+			doubtde = doubtde + 1;
+		}
+	});
+	if (doubtdr > 0) {
+		doubtadrt = Math.ceil(doubtadrt / doubtdr);
+	}
+	return { userReport, doubtReport: { doubtda, doubtdr, doubtde, doubtadrt } };
 };
